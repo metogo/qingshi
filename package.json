@@ -1,0 +1,20 @@
+{
+  "name": "qingshi-calorie-calculator",
+  "version": "1.0.0",
+  "description": "轻食热量计算器 - 基于 React 的轻食搭配与热量计算应用",
+  "main": "index.html",
+  "scripts": {
+    "dev": "open index.html"
+  },
+  "keywords": [
+    "calorie",
+    "calculator",
+    "health",
+    "food",
+    "react",
+    "轻食",
+    "热量计算"
+  ],
+  "author": "",
+  "license": "MIT"
+}

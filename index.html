@@ -15,11 +15,11 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 12px;
         }
         
         #root {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
     </style>
@@ -38,38 +38,93 @@
         const foodDatabase = {
             主食: [
                 { id: 1, name: '糙米饭', calories: 111, unit: '100g', protein: 2.6, carbs: 24, fat: 0.8 },
-                { id: 2, name: '全麦面包', calories: 246, unit: '100g', protein: 9, carbs: 48, fat: 3.4 },
-                { id: 3, name: '燕麦', calories: 367, unit: '100g', protein: 12.5, carbs: 61, fat: 7.2 },
-                { id: 4, name: '紫薯', calories: 82, unit: '100g', protein: 1.6, carbs: 18.3, fat: 0.2 },
-                { id: 5, name: '玉米', calories: 112, unit: '100g', protein: 4, carbs: 23, fat: 1.2 },
+                { id: 2, name: '白米饭', calories: 116, unit: '100g', protein: 2.6, carbs: 25.6, fat: 0.3 },
+                { id: 3, name: '全麦面包', calories: 246, unit: '100g', protein: 9, carbs: 48, fat: 3.4 },
+                { id: 4, name: '燕麦', calories: 367, unit: '100g', protein: 12.5, carbs: 61, fat: 7.2 },
+                { id: 5, name: '紫薯', calories: 82, unit: '100g', protein: 1.6, carbs: 18.3, fat: 0.2 },
+                { id: 6, name: '红薯', calories: 90, unit: '100g', protein: 1.6, carbs: 20.1, fat: 0.2 },
+                { id: 7, name: '玉米', calories: 112, unit: '100g', protein: 4, carbs: 23, fat: 1.2 },
+                { id: 8, name: '藜麦', calories: 120, unit: '100g', protein: 4.4, carbs: 21.3, fat: 1.9 },
+                { id: 9, name: '意大利面', calories: 131, unit: '100g', protein: 5, carbs: 25, fat: 1.1 },
+                { id: 10, name: '荞麦面', calories: 343, unit: '100g', protein: 13.3, carbs: 71.5, fat: 3.4 },
+                { id: 11, name: '土豆', calories: 77, unit: '100g', protein: 2, carbs: 17.5, fat: 0.1 },
+                { id: 12, name: '全麦吐司', calories: 265, unit: '100g', protein: 11, carbs: 50, fat: 3.5 },
             ],
             蛋白质: [
-                { id: 11, name: '鸡胸肉', calories: 133, unit: '100g', protein: 24.6, carbs: 2.5, fat: 5 },
-                { id: 12, name: '三文鱼', calories: 139, unit: '100g', protein: 20, carbs: 0, fat: 6.3 },
-                { id: 13, name: '鸡蛋', calories: 144, unit: '100g', protein: 13.3, carbs: 2.8, fat: 8.8 },
-                { id: 14, name: '豆腐', calories: 81, unit: '100g', protein: 8.1, carbs: 4.2, fat: 3.7 },
-                { id: 15, name: '虾仁', calories: 87, unit: '100g', protein: 18.6, carbs: 2.8, fat: 0.6 },
+                { id: 21, name: '鸡胸肉', calories: 133, unit: '100g', protein: 24.6, carbs: 2.5, fat: 5 },
+                { id: 22, name: '鸡腿肉', calories: 181, unit: '100g', protein: 18.4, carbs: 0, fat: 12 },
+                { id: 23, name: '牛肉', calories: 250, unit: '100g', protein: 26, carbs: 0, fat: 15 },
+                { id: 24, name: '瘦猪肉', calories: 143, unit: '100g', protein: 20.3, carbs: 1.5, fat: 6.2 },
+                { id: 25, name: '三文鱼', calories: 139, unit: '100g', protein: 20, carbs: 0, fat: 6.3 },
+                { id: 26, name: '金枪鱼', calories: 132, unit: '100g', protein: 23.3, carbs: 0, fat: 4.9 },
+                { id: 27, name: '鳕鱼', calories: 82, unit: '100g', protein: 17.8, carbs: 0, fat: 0.7 },
+                { id: 28, name: '鸡蛋', calories: 144, unit: '100g', protein: 13.3, carbs: 2.8, fat: 8.8 },
+                { id: 29, name: '豆腐', calories: 81, unit: '100g', protein: 8.1, carbs: 4.2, fat: 3.7 },
+                { id: 30, name: '虾仁', calories: 87, unit: '100g', protein: 18.6, carbs: 2.8, fat: 0.6 },
+                { id: 31, name: '扇贝', calories: 69, unit: '100g', protein: 12.3, carbs: 3.2, fat: 0.8 },
+                { id: 32, name: '鸭胸肉', calories: 201, unit: '100g', protein: 18.3, carbs: 0, fat: 14 },
+                { id: 33, name: '火鸡胸', calories: 104, unit: '100g', protein: 21.9, carbs: 0, fat: 1.7 },
+                { id: 34, name: '豆腐干', calories: 140, unit: '100g', protein: 17, carbs: 4.9, fat: 5.8 },
             ],
             蔬菜: [
-                { id: 21, name: '西兰花', calories: 36, unit: '100g', protein: 4.1, carbs: 4.9, fat: 0.6 },
-                { id: 22, name: '生菜', calories: 13, unit: '100g', protein: 1.3, carbs: 2.1, fat: 0.3 },
-                { id: 23, name: '番茄', calories: 15, unit: '100g', protein: 0.9, carbs: 3.3, fat: 0.2 },
-                { id: 24, name: '黄瓜', calories: 15, unit: '100g', protein: 0.8, carbs: 3.6, fat: 0.1 },
-                { id: 25, name: '胡萝卜', calories: 25, unit: '100g', protein: 1, carbs: 6, fat: 0.2 },
-                { id: 26, name: '菠菜', calories: 28, unit: '100g', protein: 2.6, carbs: 4.5, fat: 0.3 },
+                { id: 41, name: '西兰花', calories: 36, unit: '100g', protein: 4.1, carbs: 4.9, fat: 0.6 },
+                { id: 42, name: '生菜', calories: 13, unit: '100g', protein: 1.3, carbs: 2.1, fat: 0.3 },
+                { id: 43, name: '番茄', calories: 15, unit: '100g', protein: 0.9, carbs: 3.3, fat: 0.2 },
+                { id: 44, name: '黄瓜', calories: 15, unit: '100g', protein: 0.8, carbs: 3.6, fat: 0.1 },
+                { id: 45, name: '胡萝卜', calories: 25, unit: '100g', protein: 1, carbs: 6, fat: 0.2 },
+                { id: 46, name: '菠菜', calories: 28, unit: '100g', protein: 2.6, carbs: 4.5, fat: 0.3 },
+                { id: 47, name: '芦笋', calories: 20, unit: '100g', protein: 2.2, carbs: 3.9, fat: 0.1 },
+                { id: 48, name: '青椒', calories: 20, unit: '100g', protein: 0.9, carbs: 4.6, fat: 0.2 },
+                { id: 49, name: '红椒', calories: 26, unit: '100g', protein: 1, carbs: 6, fat: 0.3 },
+                { id: 50, name: '茄子', calories: 21, unit: '100g', protein: 1.1, carbs: 4.7, fat: 0.2 },
+                { id: 51, name: '洋葱', calories: 39, unit: '100g', protein: 1.2, carbs: 9, fat: 0.1 },
+                { id: 52, name: '蘑菇', calories: 22, unit: '100g', protein: 3.1, carbs: 3.3, fat: 0.3 },
+                { id: 53, name: '芹菜', calories: 12, unit: '100g', protein: 0.7, carbs: 2.4, fat: 0.1 },
+                { id: 54, name: '白菜', calories: 13, unit: '100g', protein: 1.5, carbs: 2.2, fat: 0.2 },
+                { id: 55, name: '花菜', calories: 24, unit: '100g', protein: 1.9, carbs: 4.9, fat: 0.3 },
+                { id: 56, name: '秋葵', calories: 33, unit: '100g', protein: 2, carbs: 7.5, fat: 0.2 },
             ],
             水果: [
-                { id: 31, name: '苹果', calories: 54, unit: '100g', protein: 0.4, carbs: 13.8, fat: 0.2 },
-                { id: 32, name: '香蕉', calories: 93, unit: '100g', protein: 1.4, carbs: 23, fat: 0.2 },
-                { id: 33, name: '蓝莓', calories: 57, unit: '100g', protein: 0.7, carbs: 14.5, fat: 0.3 },
-                { id: 34, name: '草莓', calories: 30, unit: '100g', protein: 1, carbs: 7.7, fat: 0.2 },
-                { id: 35, name: '奇异果', calories: 56, unit: '100g', protein: 1.1, carbs: 14.7, fat: 0.5 },
+                { id: 61, name: '苹果', calories: 54, unit: '100g', protein: 0.4, carbs: 13.8, fat: 0.2 },
+                { id: 62, name: '香蕉', calories: 93, unit: '100g', protein: 1.4, carbs: 23, fat: 0.2 },
+                { id: 63, name: '蓝莓', calories: 57, unit: '100g', protein: 0.7, carbs: 14.5, fat: 0.3 },
+                { id: 64, name: '草莓', calories: 30, unit: '100g', protein: 1, carbs: 7.7, fat: 0.2 },
+                { id: 65, name: '奇异果', calories: 56, unit: '100g', protein: 1.1, carbs: 14.7, fat: 0.5 },
+                { id: 66, name: '橙子', calories: 43, unit: '100g', protein: 0.9, carbs: 11.8, fat: 0.1 },
+                { id: 67, name: '葡萄', calories: 69, unit: '100g', protein: 0.6, carbs: 18.1, fat: 0.2 },
+                { id: 68, name: '西瓜', calories: 30, unit: '100g', protein: 0.6, carbs: 7.6, fat: 0.2 },
+                { id: 69, name: '芒果', calories: 60, unit: '100g', protein: 0.8, carbs: 15, fat: 0.4 },
+                { id: 70, name: '火龙果', calories: 51, unit: '100g', protein: 1.1, carbs: 13.3, fat: 0.2 },
+                { id: 71, name: '樱桃', calories: 50, unit: '100g', protein: 1, carbs: 12.2, fat: 0.3 },
+                { id: 72, name: '梨', calories: 44, unit: '100g', protein: 0.4, carbs: 11.3, fat: 0.1 },
+                { id: 73, name: '桃子', calories: 42, unit: '100g', protein: 0.9, carbs: 10.9, fat: 0.3 },
+                { id: 74, name: '柚子', calories: 33, unit: '100g', protein: 0.7, carbs: 8.6, fat: 0.1 },
+            ],
+            酱料: [
+                { id: 81, name: '橄榄油', calories: 884, unit: '100g', protein: 0, carbs: 0, fat: 100 },
+                { id: 82, name: '芝麻油', calories: 898, unit: '100g', protein: 0, carbs: 0, fat: 99.9 },
+                { id: 83, name: '酱油', calories: 60, unit: '100g', protein: 5.6, carbs: 8.1, fat: 0.1 },
+                { id: 84, name: '醋', calories: 18, unit: '100g', protein: 0.3, carbs: 3.9, fat: 0 },
+                { id: 85, name: '番茄酱', calories: 101, unit: '100g', protein: 1.8, carbs: 25, fat: 0.2 },
+                { id: 86, name: '沙拉酱', calories: 629, unit: '100g', protein: 1.3, carbs: 9.4, fat: 67 },
+                { id: 87, name: '蛋黄酱', calories: 680, unit: '100g', protein: 1.1, carbs: 2.7, fat: 75 },
+                { id: 88, name: '芝麻酱', calories: 618, unit: '100g', protein: 20.3, carbs: 22.7, fat: 52.7 },
+                { id: 89, name: '蜂蜜', calories: 304, unit: '100g', protein: 0.3, carbs: 82.4, fat: 0 },
+                { id: 90, name: '黑胡椒', calories: 255, unit: '100g', protein: 10.4, carbs: 64.8, fat: 3.3 },
+                { id: 91, name: '盐', calories: 0, unit: '100g', protein: 0, carbs: 0, fat: 0 },
+                { id: 92, name: '柠檬汁', calories: 22, unit: '100g', protein: 0.4, carbs: 6.9, fat: 0.2 },
             ],
             其他: [
-                { id: 41, name: '牛油果', calories: 171, unit: '100g', protein: 2, carbs: 8.6, fat: 15.3 },
-                { id: 42, name: '坚果(混合)', calories: 607, unit: '100g', protein: 20, carbs: 20, fat: 54 },
-                { id: 43, name: '橄榄油', calories: 899, unit: '100g', protein: 0, carbs: 0, fat: 100 },
-                { id: 44, name: '酸奶', calories: 72, unit: '100g', protein: 3.5, carbs: 5, fat: 3.3 },
+                { id: 101, name: '牛油果', calories: 171, unit: '100g', protein: 2, carbs: 8.6, fat: 15.3 },
+                { id: 102, name: '杏仁', calories: 579, unit: '100g', protein: 21.2, carbs: 21.6, fat: 49.9 },
+                { id: 103, name: '核桃', calories: 654, unit: '100g', protein: 15.2, carbs: 13.7, fat: 65.2 },
+                { id: 104, name: '腰果', calories: 553, unit: '100g', protein: 18.2, carbs: 30.2, fat: 43.9 },
+                { id: 105, name: '花生', calories: 567, unit: '100g', protein: 25.8, carbs: 16.1, fat: 49.2 },
+                { id: 106, name: '酸奶', calories: 72, unit: '100g', protein: 3.5, carbs: 5, fat: 3.3 },
+                { id: 107, name: '希腊酸奶', calories: 97, unit: '100g', protein: 10.2, carbs: 3.6, fat: 4.5 },
+                { id: 108, name: '奶酪', calories: 353, unit: '100g', protein: 22.9, carbs: 3.1, fat: 28.2 },
+                { id: 109, name: '牛奶', calories: 54, unit: '100g', protein: 3.2, carbs: 5, fat: 3.2 },
+                { id: 110, name: '豆浆', calories: 54, unit: '100g', protein: 3, carbs: 1.1, fat: 1.8 },
             ]
         };
 
@@ -232,48 +287,48 @@
                     <style>{`
                         .container {
                             background: white;
-                            border-radius: 24px;
-                            padding: 32px;
-                            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+                            border-radius: 16px;
+                            padding: 20px;
+                            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
                         }
 
                         .title {
                             text-align: center;
                             color: #333;
-                            margin-bottom: 32px;
-                            font-size: 32px;
+                            margin-bottom: 20px;
+                            font-size: 22px;
                             font-weight: 700;
                         }
 
                         .main-content {
                             display: grid;
                             grid-template-columns: 1fr 1fr;
-                            gap: 32px;
+                            gap: 20px;
                         }
 
                         /* 食材选择区 */
                         .food-selection h2,
                         .result-section h2 {
-                            font-size: 20px;
+                            font-size: 16px;
                             color: #333;
-                            margin-bottom: 16px;
+                            margin-bottom: 10px;
                             font-weight: 600;
                         }
 
                         .categories {
                             display: flex;
-                            gap: 8px;
-                            margin-bottom: 16px;
+                            gap: 6px;
+                            margin-bottom: 12px;
                             flex-wrap: wrap;
                         }
 
                         .category-btn {
                             background: #f0f0f0;
                             border: none;
-                            padding: 8px 16px;
-                            border-radius: 20px;
+                            padding: 5px 12px;
+                            border-radius: 12px;
                             cursor: pointer;
-                            font-size: 14px;
+                            font-size: 12px;
                             transition: all 0.3s;
                             font-weight: 500;
                         }
@@ -288,13 +343,13 @@
                         }
 
                         .food-list {
-                            max-height: 500px;
+                            max-height: 480px;
                             overflow-y: auto;
-                            padding-right: 8px;
+                            padding-right: 6px;
                         }
 
                         .food-list::-webkit-scrollbar {
-                            width: 6px;
+                            width: 4px;
                         }
 
                         .food-list::-webkit-scrollbar-track {
@@ -315,10 +370,10 @@
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
-                            padding: 12px;
-                            margin-bottom: 8px;
+                            padding: 8px 10px;
+                            margin-bottom: 6px;
                             background: #f9f9f9;
-                            border-radius: 12px;
+                            border-radius: 8px;
                             transition: all 0.3s;
                         }
 
@@ -330,16 +385,17 @@
                         .food-info {
                             display: flex;
                             flex-direction: column;
-                            gap: 4px;
+                            gap: 2px;
                         }
 
                         .food-name {
                             font-weight: 500;
                             color: #333;
+                            font-size: 13px;
                         }
 
                         .food-calories {
-                            font-size: 12px;
+                            font-size: 11px;
                             color: #666;
                         }
 
@@ -347,11 +403,11 @@
                             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                             color: white;
                             border: none;
-                            width: 32px;
-                            height: 32px;
+                            width: 26px;
+                            height: 26px;
                             border-radius: 50%;
                             cursor: pointer;
-                            font-size: 20px;
+                            font-size: 16px;
                             display: flex;
                             align-items: center;
                             justify-content: center;
@@ -366,24 +422,28 @@
                         /* 结果区 */
                         .empty-state {
                             text-align: center;
-                            padding: 60px 20px;
+                            padding: 40px 15px;
                             color: #999;
                         }
 
                         .empty-state p:first-child {
-                            font-size: 48px;
-                            margin-bottom: 16px;
+                            font-size: 36px;
+                            margin-bottom: 12px;
+                        }
+
+                        .empty-state p {
+                            font-size: 13px;
                         }
 
                         .selected-foods {
-                            max-height: 300px;
+                            max-height: 280px;
                             overflow-y: auto;
-                            margin-bottom: 24px;
-                            padding-right: 8px;
+                            margin-bottom: 15px;
+                            padding-right: 6px;
                         }
 
                         .selected-foods::-webkit-scrollbar {
-                            width: 6px;
+                            width: 4px;
                         }
 
                         .selected-foods::-webkit-scrollbar-track {
@@ -398,35 +458,36 @@
 
                         .selected-item {
                             background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-                            padding: 12px;
-                            border-radius: 12px;
-                            margin-bottom: 12px;
+                            padding: 8px 10px;
+                            border-radius: 8px;
+                            margin-bottom: 8px;
                         }
 
                         .selected-info {
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
-                            margin-bottom: 8px;
+                            margin-bottom: 6px;
                         }
 
                         .selected-name {
                             font-weight: 500;
                             color: #333;
+                            font-size: 13px;
                         }
 
                         .amount-control {
                             display: flex;
                             align-items: center;
-                            gap: 6px;
+                            gap: 4px;
                         }
 
                         .amount-input {
-                            width: 70px;
-                            padding: 4px 8px;
-                            border: 2px solid #e0e0e0;
-                            border-radius: 8px;
-                            font-size: 14px;
+                            width: 60px;
+                            padding: 3px 6px;
+                            border: 1px solid #e0e0e0;
+                            border-radius: 6px;
+                            font-size: 12px;
                             text-align: center;
                         }
 
@@ -436,7 +497,7 @@
                         }
 
                         .amount-unit {
-                            font-size: 14px;
+                            font-size: 12px;
                             color: #666;
                         }
 
@@ -449,18 +510,18 @@
                         .detail-calories {
                             color: #667eea;
                             font-weight: 600;
-                            font-size: 14px;
+                            font-size: 12px;
                         }
 
                         .remove-btn {
                             background: #ff4757;
                             color: white;
                             border: none;
-                            width: 24px;
-                            height: 24px;
+                            width: 20px;
+                            height: 20px;
                             border-radius: 50%;
                             cursor: pointer;
-                            font-size: 18px;
+                            font-size: 14px;
                             display: flex;
                             align-items: center;
                             justify-content: center;
@@ -475,14 +536,14 @@
                         /* 营养总计 */
                         .totals {
                             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                            padding: 24px;
-                            border-radius: 16px;
+                            padding: 15px;
+                            border-radius: 12px;
                             color: white;
                         }
 
                         .totals h3 {
-                            margin-bottom: 16px;
-                            font-size: 18px;
+                            margin-bottom: 12px;
+                            font-size: 14px;
                             font-weight: 600;
                         }
 
@@ -490,28 +551,28 @@
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
-                            margin-bottom: 16px;
+                            margin-bottom: 12px;
                         }
 
                         .calories-row {
-                            padding-bottom: 16px;
+                            padding-bottom: 12px;
                             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
                         }
 
                         .total-label {
-                            font-size: 16px;
+                            font-size: 13px;
                         }
 
                         .total-value {
-                            font-size: 28px;
+                            font-size: 22px;
                             font-weight: 700;
                         }
 
                         .nutrition-grid {
                             display: grid;
                             grid-template-columns: repeat(3, 1fr);
-                            gap: 16px;
-                            margin-bottom: 16px;
+                            gap: 10px;
+                            margin-bottom: 12px;
                         }
 
                         .nutrition-item {
@@ -519,27 +580,27 @@
                             flex-direction: column;
                             align-items: center;
                             background: rgba(255, 255, 255, 0.1);
-                            padding: 12px;
-                            border-radius: 12px;
+                            padding: 8px;
+                            border-radius: 8px;
                         }
 
                         .nutrition-label {
-                            font-size: 12px;
+                            font-size: 11px;
                             opacity: 0.9;
-                            margin-bottom: 4px;
+                            margin-bottom: 3px;
                         }
 
                         .nutrition-value {
-                            font-size: 18px;
+                            font-size: 14px;
                             font-weight: 600;
                         }
 
                         .health-tip {
                             background: rgba(255, 255, 255, 0.15);
-                            padding: 12px;
-                            border-radius: 12px;
+                            padding: 8px 10px;
+                            border-radius: 8px;
                             text-align: center;
-                            font-size: 14px;
+                            font-size: 12px;
                         }
 
                         .health-tip p {
@@ -553,11 +614,15 @@
                             }
 
                             .container {
-                                padding: 20px;
+                                padding: 15px;
                             }
 
                             .title {
-                                font-size: 24px;
+                                font-size: 18px;
+                            }
+
+                            .main-content {
+                                gap: 15px;
                             }
                         }
                     `}</style>
