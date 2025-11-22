@@ -1,0 +1,26 @@
+{
+  "sortedMiddleware": [],
+  "middleware": {},
+  "functions": {
+    "/api/analyze-meal/route": {
+      "files": [
+        "server/middleware-build-manifest.js",
+        "server/middleware-react-loadable-manifest.js",
+        "server/next-font-manifest.js",
+        "server/edge-runtime-webpack.js",
+        "server/app/api/analyze-meal/route.js"
+      ],
+      "name": "app/api/analyze-meal/route",
+      "page": "/api/analyze-meal/route",
+      "matchers": [
+        {
+          "regexp": "^/api/analyze\\-meal$",
+          "originalSource": "/api/analyze-meal"
+        }
+      ],
+      "wasm": [],
+      "assets": []
+    }
+  },
+  "version": 2
+}
