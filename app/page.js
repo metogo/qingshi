@@ -1,44 +1,30 @@
+'use client'
+
 import CalorieCalculator from '../components/CalorieCalculator'
+import ConversationalAnalysis from '../components/ConversationalAnalysis'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle2, Sparkles, TrendingUp, DollarSign } from 'lucide-react'
 
 export default function Home() {
   return (
     <div className="bg-bg-light min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-light/10 via-white to-ai-blue/10 py-16">
-        <div className="container mx-auto px-6">
-          <div className="text-center space-y-6 max-w-3xl mx-auto">
-            <div className="inline-block">
-              <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold">
-                ✨ AI 智能营养分析
-              </span>
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary">
-              科学减脂，从计算
-              <span className="text-primary">每一餐</span>
-              开始
-            </h1>
-            <p className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
-              专业的轻食热量计算器，助您轻松规划健康饮食，精准控制热量摄入，实现理想身材
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center pt-4">
-              <a 
-                href="#calculator" 
-                className="px-8 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-              >
-                开始计算
-              </a>
-              <Link 
-                href="/blog" 
-                className="px-8 py-3 bg-white text-text-primary rounded-xl font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 border border-gray-100"
-              >
-                了解更多
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 对话式分析区域 - 替换Hero */}
+      <ConversationalAnalysis
+        onAnalysisComplete={(result) => {
+          // 滚动到计算器区域
+          setTimeout(() => {
+            document.getElementById('calculator')?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }, 100);
+          
+          // 触发事件通知Calculator组件
+          window.dispatchEvent(new CustomEvent('meal-analyzed', {
+            detail: result
+          }));
+        }}
+      />
 
       {/* Calculator Section */}
       <section id="calculator" className="py-12">

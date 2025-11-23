@@ -1,6 +1,7 @@
 import './globals.css'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import ToastContainer from '../components/Toast'
 
 export const metadata = {
   title: '轻食热量计算器 - 科学减脂，健康饮食',
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Footer />
+        <ToastContainer />
       </body>
     </html>
   )

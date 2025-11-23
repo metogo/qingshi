@@ -19,6 +19,13 @@ export default function Navbar() {
               首页
             </Link>
             <Link
+              href="/calendar"
+              className="text-text-secondary hover:text-primary transition-colors duration-200 font-medium flex items-center gap-1"
+            >
+              <span>📅</span>
+              热量日历
+            </Link>
+            <Link
               href="/profile"
               className="text-text-secondary hover:text-primary transition-colors duration-200 font-medium flex items-center gap-1"
             >

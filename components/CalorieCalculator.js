@@ -6,6 +6,8 @@ import ReactMarkdown from 'react-markdown'
 import Fuse from 'fuse.js'
 import { pinyin } from 'pinyin-pro'
 import { getUserProfile } from '../lib/health'
+import { saveMealRecord, createMealRecord } from '../lib/calendarStorage'
+import { showToast } from './Toast'
 
 const foodDatabase = {
     主食: [
@@ -90,6 +92,23 @@ export default function CalorieCalculator() {
             setDailyGoal(profile.tdee);
         }
     }, []);
+    
+    // 监听对话分析完成
+    useEffect(() => {
+        const handler = (e) => {
+            setSelectedFoods(e.detail.foods || []);
+            setAiResponse(e.detail.analysis || '');
+            setDrawerState('expanded');
+        };
+        window.addEventListener('meal-analyzed', handler);
+        return () => window.removeEventListener('meal-analyzed', handler);
+    }, []);
+    
+    // 禁止背景滚动
+    useEffect(() => {
+        document.body.style.overflow = drawerState === 'expanded' ? 'hidden' : 'unset';
+        return () => { document.body.style.overflow = 'unset'; };
+    }, [drawerState]);
 
     const addFood = (food) => setSelectedFoods([...selectedFoods, { ...food, amount: food.defaultQuantity, currentUnit: food.primaryUnit, key: Date.now() }]);
     const removeFood = (key) => setSelectedFoods(selectedFoods.filter(f => f.key !== key));
@@ -200,6 +219,19 @@ export default function CalorieCalculator() {
             setDrawerState('expanded');
         } finally {
             setAiLoading(false);
+        }
+    };
+    
+    // 保存到热量日历
+    const handleSaveToCalendar = () => {
+        try {
+            const record = createMealRecord(selectedFoods, totals, aiResponse, 'manual');
+            saveMealRecord(record);
+            showToast('✅ 已成功添加到今日热量日历！');
+            setTimeout(() => setDrawerState('closed'), 500);
+        } catch (error) {
+            console.error('保存失败:', error);
+            alert('保存失败：' + error.message);
         }
     };
 
@@ -322,26 +354,41 @@ export default function CalorieCalculator() {
                 </div>
             )}
 
-            {/* 侧拉抽屉 - 展开状态 */}
-            {drawerState === 'expanded' && (
-                <div className="fixed inset-0 z-50 flex items-end justify-end animate-in fade-in duration-300">
-                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setDrawerState('minimized')}></div>
-                    <div className="relative bg-white h-full w-full md:w-[600px] shadow-2xl animate-in slide-in-from-right duration-300 flex flex-col">
-                        <div className="bg-gradient-to-r from-ai-blue via-ai-purple to-pink-500 p-6 text-white flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center"><Sparkles size={24} /></div>
-                                <div><h2 className="text-2xl font-bold">AI 营养师分析</h2><p className="text-sm text-white/90">专业的营养分析与建议</p></div>
-                            </div>
-                            <button
-                                onClick={() => setDrawerState('minimized')}
-                                className="w-10 h-10 rounded-xl bg-white/20 hover:bg-white/30 flex items-center justify-center transition-all group"
-                                title="最小化"
-                            >
-                                <ChevronLeft size={20} className="group-hover:scale-110 transition-transform" />
-                            </button>
+            {/* 全屏模态弹窗 - 两栏布局 */}
+            {drawerState === 'expanded' && aiResponse && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setDrawerState('closed')}>
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+                    <div className="relative bg-white rounded-3xl w-full max-w-6xl max-h-[85vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                        <div className="bg-gradient-to-r from-ai-blue via-ai-purple to-pink-500 p-6 text-white flex justify-between">
+                            <h2 className="text-2xl font-bold">📊 餐食分析报告</h2>
+                            <button onClick={() => setDrawerState('closed')}><X size={24} /></button>
                         </div>
-                        <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
-                            <div className="prose max-w-none">
+                        <div className="grid md:grid-cols-2" style={{maxHeight:'calc(85vh - 180px)'}}>
+                            <div className="border-r p-6 overflow-y-auto bg-gray-50" style={{maxHeight:'calc(85vh - 180px)'}}>
+                                <h3 className="font-bold mb-4">🍽️ 本次分析的餐食</h3>
+                                {selectedFoods.map(f => (
+                                    <div key={f.key} className="bg-white p-3 rounded-xl border mb-2">
+                                        <div className="flex gap-2 mb-1">
+                                            <span>{f.emoji}</span>
+                                            <span>{f.name}</span>
+                                            <span className="ml-auto text-xs">{f.amount}{f.currentUnit}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                                <div className="mt-4 p-4 bg-primary/5 rounded-xl border-2 border-primary/20">
+                                    <div className="font-bold mb-3">营养总计</div>
+                                    <div className="grid grid-cols-2 gap-2 text-sm">
+                                        <div>热量: <span className="font-bold text-primary">{Math.round(totals.calories)}</span> kcal</div>
+                                        <div>价格: <span className="font-bold text-yellow-600">¥{totals.price.toFixed(1)}</span></div>
+                                        <div>蛋白质: <span className="font-bold">{totals.protein.toFixed(1)}g</span></div>
+                                        <div>碳水: <span className="font-bold">{totals.carbs.toFixed(1)}g</span></div>
+                                        <div>脂肪: <span className="font-bold">{totals.fat.toFixed(1)}g</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="p-6 overflow-y-auto" style={{maxHeight:'calc(85vh - 180px)'}}>
+                                <h3 className="font-bold text-purple-600 mb-4 flex items-center gap-2"><Sparkles size={20} />AI营养师分析</h3>
+                                <div className="prose prose-sm max-w-none">
                                 <ReactMarkdown components={{
                                     h3: ({node, ...props}) => <h3 className="text-xl font-bold text-text-primary mt-6 mb-3" {...props} />,
                                     h4: ({node, ...props}) => <h4 className="text-lg font-semibold text-primary mt-4 mb-2" {...props} />,
@@ -349,8 +396,13 @@ export default function CalorieCalculator() {
                                     ul: ({node, ...props}) => <ul className="space-y-2 my-4" {...props} />,
                                     li: ({node, ...props}) => <li className="flex items-start gap-2 text-text-secondary"><span className="text-primary mt-1">•</span><span {...props} /></li>,
                                     strong: ({node, ...props}) => <strong className="text-primary font-semibold" {...props} />,
-                                }}>{aiResponse}</ReactMarkdown>
+                                    }}>{aiResponse}</ReactMarkdown>
+                                </div>
                             </div>
+                        </div>
+                        <div className="border-t p-6 bg-gray-50 flex gap-3">
+                            <button onClick={handleSaveToCalendar} className="flex-1 bg-primary text-white py-3 rounded-xl font-bold">📅 添加到热量日历</button>
+                            <button onClick={() => setDrawerState('closed')} className="flex-1 bg-white border-2 py-3 rounded-xl">关闭</button>
                         </div>
                     </div>
                 </div>

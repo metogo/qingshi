@@ -1,1 +1,7 @@
-{}
+{
+  "/api/meal/analyze-text/route": "app/api/meal/analyze-text/route.js",
+  "/not-found": "app/not-found.js",
+  "/profile/page": "app/profile/page.js",
+  "/page": "app/page.js",
+  "/calendar/page": "app/calendar/page.js"
+}
