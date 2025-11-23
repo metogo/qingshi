@@ -47,7 +47,7 @@ export async function POST(req) {
 [{"foodName":"鸡蛋","quantity":2,"unit":"个"}]`;
 
     const extractResult = await generateText({
-      model: openai('google/gemini-2.0-flash-001'),
+      model: openai('google/gemini-2.5-pro'),
       prompt: extractPrompt,
     });
 
@@ -67,18 +67,19 @@ export async function POST(req) {
 
     console.log('[阶段1] 提取的食物:', extractedFoods);
 
-    // ===== 阶段2：丰富营养数据 =====
-    const enrichedFoods = extractedFoods.map(item => {
-      // 查找本地数据库
-      const localFood = localFoodsDB.find(f => 
-        f.name.includes(item.foodName) || 
+    // ===== 阶段2：智能营养数据丰富（本地 + AI混合） =====
+    const enrichedFoods = await Promise.all(extractedFoods.map(async (item) => {
+      // 步骤1：优先查询本地数据库
+      const localFood = localFoodsDB.find(f =>
+        f.name.includes(item.foodName) ||
         item.foodName.includes(f.name) ||
-        item.foodName.replace(/煮|蒸|炒|炸/, '').includes(f.name)
+        item.foodName.replace(/煮|蒸|炒|炸|烤/, '').includes(f.name)
       );
 
       if (localFood) {
-        // 计算实际克数
+        // 找到本地数据 - 使用精确营养值 ✅
         const grams = calculateGrams(item.quantity, item.unit, localFood);
+        console.log(`[本地匹配] ${item.foodName} → ${localFood.name} ✅`);
         
         return {
           ...localFood,
@@ -89,30 +90,23 @@ export async function POST(req) {
             { name: 'g', rate: 1 },
             { name: localFood.primaryUnit, rate: localFood.servingSize }
           ],
-          key: Date.now() + Math.random()
+          key: Date.now() + Math.random(),
+          source: 'local'
         };
       } else {
-        // 未找到，返回默认估算
-        return {
-          id: `unknown_${Date.now()}`,
-          name: item.foodName,
-          emoji: '🍽️',
-          calories: 100,
-          protein: 5,
-          carbs: 15,
-          fat: 3,
-          price: 1.0,
-          amount: item.quantity,
-          currentUnit: item.unit,
-          gramsAmount: item.quantity * 100,
-          primaryUnit: item.unit,
-          servingSize: 100,
-          units: [{ name: 'g', rate: 1 }],
-          key: Date.now() + Math.random(),
-          source: 'estimated'
-        };
+        // 步骤2：未找到 - AI智能估算营养数据 🤖
+        console.log(`[AI估算] ${item.foodName} - 本地库无数据，AI智能推断`);
+        
+        try {
+          const aiNutrition = await estimateNutritionWithAI(item, openai);
+          return aiNutrition;
+        } catch (error) {
+          console.error(`[AI估算失败] ${item.foodName}:`, error);
+          // 降级：返回通用估算
+          return createFallbackFood(item);
+        }
       }
-    });
+    }));
 
     console.log('[阶段2] 丰富后的数据:', enrichedFoods);
 
@@ -161,7 +155,7 @@ export async function POST(req) {
 语气要专业、友好、鼓励。`;
 
     const analysisResult = await generateText({
-      model: openai('google/gemini-2.0-flash-001'),
+      model: openai('google/gemini-2.5-pro'),
       prompt: analysisPrompt,
     });
 
@@ -184,6 +178,86 @@ export async function POST(req) {
       message: error.message
     }, { status: 500 });
   }
+}
+
+// ===== AI智能估算营养数据（核心创新功能）=====
+async function estimateNutritionWithAI(foodItem, openaiClient) {
+  const prompt = `你是营养学专家。请估算以下食物的营养成分（每100克/100ml）：
+
+食物名称：${foodItem.foodName}
+用户说的量：${foodItem.quantity}${foodItem.unit}
+
+请以JSON格式返回，只返回JSON不要其他文字：
+{
+  "calories": 每100克的热量数字(如52),
+  "protein": 蛋白质克数(如0.3),
+  "carbs": 碳水克数(如13.8),
+  "fat": 脂肪克数(如0.2),
+  "emoji": "最合适的emoji（如🍎）",
+  "estimatedGrams": ${foodItem.quantity}${foodItem.unit}对应的估算总克数,
+  "servingSize": 一份的克数（如苹果一个约200g）
+}`;
+
+  try {
+    const result = await generateText({
+      model: openaiClient('google/gemini-2.5-pro'),
+      prompt: prompt,
+    });
+
+    console.log('[AI估算原始返回]:', result.text);
+
+    const jsonMatch = result.text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const nutrition = JSON.parse(jsonMatch[0]);
+      
+      return {
+        id: `ai_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        name: foodItem.foodName,
+        emoji: nutrition.emoji || '🍽️',
+        calories: parseFloat(nutrition.calories) || 100,
+        protein: parseFloat(nutrition.protein) || 5,
+        carbs: parseFloat(nutrition.carbs) || 15,
+        fat: parseFloat(nutrition.fat) || 3,
+        price: 1.0,
+        amount: foodItem.quantity,
+        currentUnit: foodItem.unit,
+        gramsAmount: nutrition.estimatedGrams || (foodItem.quantity * 100),
+        primaryUnit: foodItem.unit,
+        servingSize: nutrition.servingSize || 100,
+        units: [
+          { name: 'g', rate: 1 },
+          { name: foodItem.unit, rate: nutrition.servingSize || 100 }
+        ],
+        key: Date.now() + Math.random(),
+        source: 'ai-estimated'
+      };
+    }
+  } catch (error) {
+    console.error('[AI估算异常]:', error);
+    throw error;
+  }
+}
+
+// 降级方案：创建通用估算食材
+function createFallbackFood(item) {
+  return {
+    id: `fallback_${Date.now()}`,
+    name: item.foodName,
+    emoji: '🍽️',
+    calories: 100,
+    protein: 5,
+    carbs: 15,
+    fat: 3,
+    price: 1.0,
+    amount: item.quantity,
+    currentUnit: item.unit,
+    gramsAmount: item.quantity * 100,
+    primaryUnit: item.unit,
+    servingSize: 100,
+    units: [{ name: 'g', rate: 1 }],
+    key: Date.now() + Math.random(),
+    source: 'fallback'
+  };
 }
 
 // 辅助函数：计算克数

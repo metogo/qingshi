@@ -15,7 +15,7 @@ export async function POST(req) {
 
   // Ask OpenAI for a streaming chat completion given the prompt
   const result = streamText({
-    model: openai('google/gemini-2.0-flash-001'),
+    model: openai('google/gemini-2.5-pro'),
     messages: [
       {
         role: 'system',
