@@ -40,6 +40,8 @@ export default function ConversationalAnalysis({ onAnalysisComplete }) {
     }
   } catch (error) {
     console.error('对话分析错误:', error);
+    console.log('env',process.env)
+    console.log('key',process.env.OPENROUTER_API_KEY)
     alert('分析失败，请检查网络连接或稍后重试');
   } finally {
     setAnalyzing(false);

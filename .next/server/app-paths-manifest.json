@@ -1,7 +1,6 @@
 {
   "/api/meal/analyze-text/route": "static/webpack/app/api/meal/analyze-text/route.5126394ec2c12d3c.hot-update.js",
-  "/not-found": "app/not-found.js",
-  "/profile/page": "app/profile/page.js",
   "/page": "app/page.js",
+  "/profile/page": "app/profile/page.js",
   "/calendar/page": "app/calendar/page.js"
 }
