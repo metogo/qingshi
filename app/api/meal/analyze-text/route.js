@@ -137,6 +137,9 @@ export async function POST(req) {
 - 碳水化合物：${totals.carbs.toFixed(1)} g
 - 脂肪：${totals.fat.toFixed(1)} g
 
+数据来源说明：
+营养成分数据主要参考《中国食物成分表（第6版）》及美国农业部USDA数据库，确保数据的权威性和准确性。
+
 请提供详细的营养分析报告，使用Markdown格式，包括：
 
 ### 🥗 总体评价
@@ -152,6 +155,9 @@ export async function POST(req) {
 
 ### 👥 适用人群
 [适合的人群]
+
+### 📊 数据来源
+*营养成分数据参考《中国食物成分表（第6版）》及USDA数据库*
 
 语气要专业、友好、鼓励。`;
 
@@ -183,7 +189,7 @@ export async function POST(req) {
 
 // ===== AI智能估算营养数据（核心创新功能）=====
 async function estimateNutritionWithAI(foodItem, openaiClient) {
-  const prompt = `你是营养学专家。请估算以下食物的营养成分（每100克/100ml）：
+  const prompt = `你是营养学专家。请参考《中国食物成分表（第6版）》和USDA数据库，估算以下食物的营养成分（每100克/100ml）：
 
 食物名称：${foodItem.foodName}
 用户说的量：${foodItem.quantity}${foodItem.unit}
