@@ -6,7 +6,8 @@ const openai = createOpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
 });
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
+export const maxDuration = 60; // 设置最大执行时间为60秒
 
 // 本地食材数据库（简化版，用于快速匹配）
 const localFoodsDB = [
@@ -47,7 +48,7 @@ export async function POST(req) {
 [{"foodName":"鸡蛋","quantity":2,"unit":"个"}]`;
 
     const extractResult = await generateText({
-      model: openai('google/gemini-2.5-pro'),
+      model: openai('google/gemini-2.0-flash-001'),
       prompt: extractPrompt,
     });
 
@@ -155,7 +156,7 @@ export async function POST(req) {
 语气要专业、友好、鼓励。`;
 
     const analysisResult = await generateText({
-      model: openai('google/gemini-2.5-pro'),
+      model: openai('google/gemini-2.0-flash-001'),
       prompt: analysisPrompt,
     });
 
@@ -200,7 +201,7 @@ async function estimateNutritionWithAI(foodItem, openaiClient) {
 
   try {
     const result = await generateText({
-      model: openaiClient('google/gemini-2.5-pro'),
+      model: openaiClient('google/gemini-2.0-flash-001'),
       prompt: prompt,
     });
 
