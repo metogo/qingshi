@@ -32,9 +32,19 @@ export default function About() {
 
         <h2 className="text-2xl font-bold text-gray-800 mt-8 mb-4">为什么选择我们？</h2>
         <ul className="list-disc pl-6 space-y-2">
-          <li><strong>数据精准</strong>：我们的食材数据参考了权威营养数据库，并结合了市面上常见的轻食食材。</li>
+          <li><strong>数据权威精准</strong>：我们的营养数据主要参考《中国食物成分表（第6版）》及美国农业部USDA数据库，确保数据的科学性和准确性。所有营养成分均基于食材的可食用部分，更贴近实际使用场景。</li>
           <li><strong>操作便捷</strong>：无需下载APP，打开网页即可使用，界面简洁直观。</li>
           <li><strong>完全免费</strong>：我们承诺核心功能永久免费，旨在为更多人提供帮助。</li>
+        </ul>
+
+        <h2 className="text-2xl font-bold text-gray-800 mt-8 mb-4">数据来源说明</h2>
+        <p>
+          为确保营养数据的权威性和准确性，我们采用以下数据标准：
+        </p>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>《中国食物成分表（第6版）》</strong>：中国营养学会编著的权威食物营养成分数据库，涵盖中国常见食材的详细营养信息。</li>
+          <li><strong>USDA数据库</strong>：美国农业部（United States Department of Agriculture）维护的全球最大食物营养数据库之一，提供国际通用食材的标准营养数据。</li>
+          <li><strong>数据校准原则</strong>：热量单位为千卡（kcal）/100g可食部，大部分食材数据为烹饪后或可直接食用的状态，更贴近日常使用场景。</li>
         </ul>
 
         <p className="mt-8">

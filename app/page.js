@@ -49,7 +49,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold mb-3 text-text-primary">精准数据</h3>
               <p className="text-text-secondary leading-relaxed">
-                基于权威营养数据库，提供常见轻食食材的精准热量、蛋白质、碳水和脂肪数据
+                营养数据参考《中国食物成分表（第6版）》及USDA数据库，提供常见轻食食材的精准热量、蛋白质、碳水和脂肪数据
               </p>
             </div>
             
