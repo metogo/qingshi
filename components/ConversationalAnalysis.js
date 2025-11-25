@@ -16,7 +16,6 @@ export default function ConversationalAnalysis({ onAnalysisComplete }) {
 
   async function handleAnalyze() {
   if (!mealDescription.trim()) return;
-
   setAnalyzing(true);
 
   try {
@@ -31,7 +30,7 @@ export default function ConversationalAnalysis({ onAnalysisComplete }) {
     }
 
     const result = await response.json();
-
+    console.log('key',process.env.OPENROUTER_API_KEY)
     if (result.success) {
       onAnalysisComplete?.(result);
       setMealDescription('');

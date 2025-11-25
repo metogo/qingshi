@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowRight, CheckCircle2, Sparkles, TrendingUp, DollarSign } from 'lucide-react'
 
 export default function Home() {
+  alert(process.env.OPENROUTER_API_KEY)
   return (
     <div className="bg-bg-light min-h-screen">
       {/* 对话式分析区域 - 替换Hero */}

@@ -6,7 +6,8 @@ const openai = createOpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
 });
 
-export const runtime = 'edge';
+// 使用默认Node.js runtime（环境变量更稳定）
+// export const runtime = 'edge';
 
 // 本地食材数据库（简化版，用于快速匹配）
 const localFoodsDB = [

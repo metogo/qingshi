@@ -6,9 +6,9 @@ const openai = createOpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
   baseURL: 'https://openrouter.ai/api/v1',
 });
-
-// Set the runtime to edge for best performance
-export const runtime = 'edge';
+alert(openai)
+// 使用默认Node.js runtime（环境变量更稳定）
+// export const runtime = 'edge';
 
 export async function POST(req) {
   const { messages } = await req.json();

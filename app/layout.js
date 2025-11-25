@@ -8,6 +8,7 @@ export const metadata = {
   description: '专业的轻食热量计算工具，帮助您科学规划饮食，轻松实现减脂目标。提供常见食材热量查询、营养搭配建议。',
 }
 
+
 export default function RootLayout({ children }) {
   return (
     <html lang="zh-CN">
